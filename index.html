@@ -18,7 +18,22 @@
           <li><a href="#marsella">Tarot de Marsella</a></li>
           <li><a href="#rider">Rider-Waite</a></li>
           <li><a href="#consulta">Consulta</a></li>
+          <li><a href="#tienda">Tienda</a></li>
         </ul>
+        <div class="user-actions">
+          <button id="login-btn" class="login-button">
+            � Isniciar Sesión
+          </button>
+          <div id="user-menu" class="user-menu" style="display: none;">
+            <span id="user-name" class="user-name">Usuario</span>
+            <button id="logout-btn" class="logout-button">Cerrar Sesión</button>
+          </div>
+          <div class="cart-container">
+            <button id="cart-btn" class="cart-button" style="display: none;">
+              🛒 <span id="cart-count">0</span>
+            </button>
+          </div>
+        </div></div>
         <div class="menu-toggle">
           <span></span>
           <span></span>
@@ -411,6 +426,108 @@
         </div>
       </section>
 
+      <section id="tienda" class="shop-section">
+        <div class="container">
+          <h2>Tienda de Tarot</h2>
+          <p class="shop-intro">
+            Descubre nuestra colección de mazos de tarot, lecturas personalizadas y accesorios místicos
+          </p>
+          
+          <div class="shop-categories">
+            <button class="category-btn active" data-category="all">Todos</button>
+            <button class="category-btn" data-category="mazos">Mazos de Tarot</button>
+            <button class="category-btn" data-category="lecturas">Lecturas</button>
+            <button class="category-btn" data-category="accesorios">Accesorios</button>
+          </div>
+
+          <div class="products-grid">
+            <div class="product-card" data-category="mazos">
+              <div class="product-image">
+                <img src="img/hero/tarot_egipcio.jfif" alt="Mazo Tarot Egipcio" />
+              </div>
+              <div class="product-info">
+                <h3>Mazo Tarot Egipcio</h3>
+                <p>Mazo completo de 78 cartas con simbolismo egipcio ancestral</p>
+                <div class="product-price">$45.99</div>
+                <button class="add-to-cart-btn" data-id="1" data-name="Mazo Tarot Egipcio" data-price="45.99" data-image="img/hero/tarot_egipcio.jfif">
+                  Agregar al Carrito
+                </button>
+              </div>
+            </div>
+
+            <div class="product-card" data-category="mazos">
+              <div class="product-image">
+                <img src="img/hero/tarot_marsella.jfif" alt="Mazo Tarot de Marsella" />
+              </div>
+              <div class="product-info">
+                <h3>Mazo Tarot de Marsella</h3>
+                <p>Tarot tradicional europeo con diseño clásico auténtico</p>
+                <div class="product-price">$39.99</div>
+                <button class="add-to-cart-btn" data-id="2" data-name="Mazo Tarot de Marsella" data-price="39.99" data-image="img/hero/tarot_marsella.jfif">
+                  Agregar al Carrito
+                </button>
+              </div>
+            </div>
+
+            <div class="product-card" data-category="mazos">
+              <div class="product-image">
+                <img src="img/hero/tarot_rider.jfif" alt="Mazo Rider-Waite" />
+              </div>
+              <div class="product-info">
+                <h3>Mazo Rider-Waite</h3>
+                <p>El tarot más popular del mundo, ideal para principiantes</p>
+                <div class="product-price">$35.99</div>
+                <button class="add-to-cart-btn" data-id="3" data-name="Mazo Rider-Waite" data-price="35.99" data-image="img/hero/tarot_rider.jfif">
+                  Agregar al Carrito
+                </button>
+              </div>
+            </div>
+
+            <div class="product-card" data-category="lecturas">
+              <div class="product-image">
+                <img src="img/fondos/fondo_1.jfif" alt="Lectura Personal" />
+              </div>
+              <div class="product-info">
+                <h3>Lectura Personal (30 min)</h3>
+                <p>Sesión personalizada de tarot con tarotista experto</p>
+                <div class="product-price">$25.00</div>
+                <button class="add-to-cart-btn" data-id="4" data-name="Lectura Personal (30 min)" data-price="25.00" data-image="img/fondos/fondo_1.jfif">
+                  Agregar al Carrito
+                </button>
+              </div>
+            </div>
+
+            <div class="product-card" data-category="lecturas">
+              <div class="product-image">
+                <img src="img/fondos/fondo_egip.jfif" alt="Lectura Espiritual" />
+              </div>
+              <div class="product-info">
+                <h3>Lectura Espiritual (60 min)</h3>
+                <p>Sesión profunda de crecimiento espiritual y guía</p>
+                <div class="product-price">$45.00</div>
+                <button class="add-to-cart-btn" data-id="5" data-name="Lectura Espiritual (60 min)" data-price="45.00" data-image="img/fondos/fondo_egip.jfif">
+                  Agregar al Carrito
+                </button>
+              </div>
+            </div>
+
+            <div class="product-card" data-category="accesorios">
+              <div class="product-image">
+                <img src="img/fondos/fondo_marselle.jfif" alt="Paño de Lectura" />
+              </div>
+              <div class="product-info">
+                <h3>Paño de Lectura Místico</h3>
+                <p>Paño de terciopelo con símbolos esotéricos para lecturas</p>
+                <div class="product-price">$19.99</div>
+                <button class="add-to-cart-btn" data-id="6" data-name="Paño de Lectura Místico" data-price="19.99" data-image="img/fondos/fondo_marselle.jfif">
+                  Agregar al Carrito
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="consulta" class="consultation-section">
         <div class="container">
           <h2>Consulta Personalizada</h2>
@@ -482,6 +599,89 @@
         </div>
       </section>
     </main>
+
+    </main>
+
+    <!-- Modal de Login -->
+    <div id="login-modal" class="login-modal">
+      <div class="login-modal-content">
+        <div class="login-header">
+          <h2>� Inirciar Sesión</h2>
+          <button id="close-login" class="close-login">&times;</button>
+        </div>
+        <div class="login-body">
+          <div class="login-tabs">
+            <button class="login-tab active" data-tab="login">Iniciar Sesión</button>
+            <button class="login-tab" data-tab="register">Registrarse</button>
+          </div>
+          
+          <!-- Login Form -->
+          <div id="login-form" class="auth-form active">
+            <form id="login-form-element">
+              <div class="form-group">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" required placeholder="tu@email.com">
+              </div>
+              <div class="form-group">
+                <label for="login-password">Contraseña:</label>
+                <input type="password" id="login-password" required placeholder="Tu contraseña">
+              </div>
+              <button type="submit" class="auth-btn">Iniciar Sesión</button>
+            </form>
+            <p class="auth-demo">
+              <strong>Demo:</strong> Email: demo@tarot.com | Contraseña: 123456
+            </p>
+          </div>
+          
+          <!-- Register Form -->
+          <div id="register-form" class="auth-form">
+            <form id="register-form-element">
+              <div class="form-group">
+                <label for="register-name">Nombre:</label>
+                <input type="text" id="register-name" required placeholder="Tu nombre completo">
+              </div>
+              <div class="form-group">
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" required placeholder="tu@email.com">
+              </div>
+              <div class="form-group">
+                <label for="register-password">Contraseña:</label>
+                <input type="password" id="register-password" required placeholder="Mínimo 6 caracteres">
+              </div>
+              <div class="form-group">
+                <label for="register-confirm">Confirmar Contraseña:</label>
+                <input type="password" id="register-confirm" required placeholder="Confirma tu contraseña">
+              </div>
+              <button type="submit" class="auth-btn">Registrarse</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal del Carrito -->
+    <div id="cart-modal" class="cart-modal">
+      <div class="cart-modal-content">
+        <div class="cart-header">
+          <h2>🛒 Carrito de Compras</h2>
+          <button id="close-cart" class="close-cart">&times;</button>
+        </div>
+        <div class="cart-body">
+          <div id="cart-items" class="cart-items">
+            <p class="empty-cart">Tu carrito está vacío</p>
+          </div>
+          <div class="cart-summary">
+            <div class="cart-total">
+              <strong>Total: $<span id="cart-total">0.00</span></strong>
+            </div>
+            <div class="cart-actions">
+              <button id="clear-cart" class="clear-cart-btn">Vaciar Carrito</button>
+              <button id="checkout" class="checkout-btn">Proceder al Pago</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer>
       <div class="container">

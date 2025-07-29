@@ -705,4 +705,487 @@ animationStyle.textContent = `
         animation: fadeInUp 0.6s ease forwards;
     }
 `;
-document.head.appendChild(animationStyle);
+document.head.appendChild(animationStyle);//
+ Shopping Cart Functionality
+let cart = [];
+let cartCount = 0;
+let cartTotal = 0;
+
+// Cart elements
+const cartBtn = document.getElementById('cart-btn');
+const cartModal = document.getElementById('cart-modal');
+const closeCartBtn = document.getElementById('close-cart');
+const cartCountElement = document.getElementById('cart-count');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotalElement = document.getElementById('cart-total');
+const clearCartBtn = document.getElementById('clear-cart');
+const checkoutBtn = document.getElementById('checkout');
+
+// Product category filtering
+const categoryBtns = document.querySelectorAll('.category-btn');
+const productCards = document.querySelectorAll('.product-card');
+
+// Add to cart functionality
+document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const productId = this.getAttribute('data-id');
+        const productName = this.getAttribute('data-name');
+        const productPrice = parseFloat(this.getAttribute('data-price'));
+        const productImage = this.getAttribute('data-image');
+        
+        addToCart(productId, productName, productPrice, productImage);
+        
+        // Visual feedback
+        this.style.background = '#2ed573';
+        this.textContent = '¡Agregado!';
+        setTimeout(() => {
+            this.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            this.textContent = 'Agregar al Carrito';
+        }, 1000);
+    });
+});
+
+// Category filtering
+categoryBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const category = this.getAttribute('data-category');
+        
+        // Update active button
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Filter products
+        productCards.forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.5s ease';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+
+// Cart modal functionality
+cartBtn.addEventListener('click', () => {
+    cartModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+});
+
+closeCartBtn.addEventListener('click', closeCart);
+cartModal.addEventListener('click', (e) => {
+    if (e.target === cartModal) {
+        closeCart();
+    }
+});
+
+function closeCart() {
+    cartModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Add item to cart
+function addToCart(id, name, price, image) {
+    const existingItem = cart.find(item => item.id === id);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: id,
+            name: name,
+            price: price,
+            image: image,
+            quantity: 1
+        });
+    }
+    
+    updateCartDisplay();
+}
+
+// Remove item from cart
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    updateCartDisplay();
+}
+
+// Update item quantity
+function updateQuantity(id, change) {
+    const item = cart.find(item => item.id === id);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            removeFromCart(id);
+        } else {
+            updateCartDisplay();
+        }
+    }
+}
+
+// Update cart display
+function updateCartDisplay() {
+    cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    
+    cartCountElement.textContent = cartCount;
+    cartTotalElement.textContent = cartTotal.toFixed(2);
+    
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="empty-cart">Tu carrito está vacío</p>';
+    } else {
+        cartItemsContainer.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="${item.image}" alt="${item.name}" />
+                </div>
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                </div>
+                <div class="cart-item-controls">
+                    <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                    <span class="quantity-display">${item.quantity}</span>
+                    <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                    <button class="remove-item" onclick="removeFromCart('${item.id}')">🗑️</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// Clear cart
+clearCartBtn.addEventListener('click', () => {
+    if (confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
+        cart = [];
+        updateCartDisplay();
+    }
+});
+
+// Checkout
+checkoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+        alert('Tu carrito está vacío');
+        return;
+    }
+    
+    alert(`¡Gracias por tu compra! Total: $${cartTotal.toFixed(2)}\n\nEn una implementación real, aquí se procesaría el pago.`);
+    cart = [];
+    updateCartDisplay();
+    closeCart();
+});
+
+// Initialize cart display
+updateCartDisplay();
+
+// Add fadeIn animation
+const style2 = document.createElement('style');
+style2.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+`;
+document.head.appendChild(style2);// A
+uthentication System
+let currentUser = null;
+let isLoggedIn = false;
+
+// Auth elements
+const loginBtn = document.getElementById('login-btn');
+const loginModal = document.getElementById('login-modal');
+const closeLoginBtn = document.getElementById('close-login');
+const userMenu = document.getElementById('user-menu');
+const userNameElement = document.getElementById('user-name');
+const logoutBtn = document.getElementById('logout-btn');
+const cartButton = document.getElementById('cart-btn');
+
+// Form elements
+const loginTabs = document.querySelectorAll('.login-tab');
+const authForms = document.querySelectorAll('.auth-form');
+const loginForm = document.getElementById('login-form-element');
+const registerForm = document.getElementById('register-form-element');
+
+// Demo users database (in real app, this would be server-side)
+const users = [
+    {
+        id: 1,
+        name: 'Usuario Demo',
+        email: 'demo@tarot.com',
+        password: '123456'
+    }
+];
+
+// Login modal functionality
+loginBtn.addEventListener('click', () => {
+    loginModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+});
+
+closeLoginBtn.addEventListener('click', closeLoginModal);
+loginModal.addEventListener('click', (e) => {
+    if (e.target === loginModal) {
+        closeLoginModal();
+    }
+});
+
+function closeLoginModal() {
+    loginModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    resetForms();
+}
+
+// Tab switching
+loginTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+        const targetTab = this.getAttribute('data-tab');
+        
+        // Update active tab
+        loginTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Show corresponding form
+        authForms.forEach(form => {
+            form.classList.remove('active');
+            if (form.id === `${targetTab}-form`) {
+                form.classList.add('active');
+            }
+        });
+    });
+});
+
+// Login form submission
+loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    
+    // Find user (in real app, this would be an API call)
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+        loginUser(user);
+        showMessage('¡Bienvenido! Has iniciado sesión correctamente.', 'success');
+        closeLoginModal();
+    } else {
+        showMessage('Email o contraseña incorrectos. Prueba: demo@tarot.com / 123456', 'error');
+    }
+});
+
+// Register form submission
+registerForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const confirmPassword = document.getElementById('register-confirm').value;
+    
+    // Validation
+    if (password !== confirmPassword) {
+        showMessage('Las contraseñas no coinciden', 'error');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showMessage('La contraseña debe tener al menos 6 caracteres', 'error');
+        return;
+    }
+    
+    // Check if user already exists
+    if (users.find(u => u.email === email)) {
+        showMessage('Ya existe un usuario con este email', 'error');
+        return;
+    }
+    
+    // Create new user
+    const newUser = {
+        id: users.length + 1,
+        name: name,
+        email: email,
+        password: password
+    };
+    
+    users.push(newUser);
+    loginUser(newUser);
+    showMessage('¡Cuenta creada exitosamente! Has iniciado sesión.', 'success');
+    closeLoginModal();
+});
+
+// Login user
+function loginUser(user) {
+    currentUser = user;
+    isLoggedIn = true;
+    
+    // Update UI
+    loginBtn.style.display = 'none';
+    userMenu.style.display = 'flex';
+    userNameElement.textContent = user.name;
+    cartButton.style.display = 'block';
+    
+    // Remove protected content restrictions
+    document.querySelectorAll('.protected-content').forEach(element => {
+        element.classList.remove('protected-content');
+    });
+    
+    // Save to localStorage (optional)
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('isLoggedIn', 'true');
+}
+
+// Logout functionality
+logoutBtn.addEventListener('click', () => {
+    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+        logoutUser();
+    }
+});
+
+function logoutUser() {
+    currentUser = null;
+    isLoggedIn = false;
+    
+    // Update UI
+    loginBtn.style.display = 'block';
+    userMenu.style.display = 'none';
+    cartButton.style.display = 'none';
+    
+    // Clear cart
+    cart = [];
+    updateCartDisplay();
+    
+    // Add protection to shop content
+    const shopSection = document.getElementById('tienda');
+    if (shopSection) {
+        shopSection.classList.add('protected-content');
+    }
+    
+    // Clear localStorage
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('isLoggedIn');
+    
+    showMessage('Has cerrado sesión correctamente', 'info');
+}
+
+// Check for saved login on page load
+function checkSavedLogin() {
+    const savedUser = localStorage.getItem('currentUser');
+    const savedLoginStatus = localStorage.getItem('isLoggedIn');
+    
+    if (savedUser && savedLoginStatus === 'true') {
+        const user = JSON.parse(savedUser);
+        loginUser(user);
+    } else {
+        // Protect shop content if not logged in
+        const shopSection = document.getElementById('tienda');
+        if (shopSection) {
+            shopSection.classList.add('protected-content');
+        }
+    }
+}
+
+// Protect cart functionality
+const originalCartBtnClick = cartBtn.onclick;
+cartBtn.addEventListener('click', function(e) {
+    if (!isLoggedIn) {
+        e.preventDefault();
+        showMessage('Debes iniciar sesión para acceder al carrito', 'warning');
+        loginModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        return false;
+    }
+});
+
+// Protect add to cart buttons
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('add-to-cart-btn') && !isLoggedIn) {
+        e.preventDefault();
+        showMessage('Debes iniciar sesión para agregar productos al carrito', 'warning');
+        loginModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+});
+
+// Message system
+function showMessage(message, type = 'info') {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message message-${type}`;
+    messageDiv.textContent = message;
+    
+    // Style the message
+    messageDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        z-index: 3000;
+        max-width: 300px;
+        word-wrap: break-word;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    // Set background color based on type
+    switch(type) {
+        case 'success':
+            messageDiv.style.background = '#2ed573';
+            break;
+        case 'error':
+            messageDiv.style.background = '#ff4757';
+            break;
+        case 'warning':
+            messageDiv.style.background = '#ffa502';
+            break;
+        default:
+            messageDiv.style.background = '#667eea';
+    }
+    
+    document.body.appendChild(messageDiv);
+    
+    // Remove message after 4 seconds
+    setTimeout(() => {
+        messageDiv.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (messageDiv.parentNode) {
+                messageDiv.parentNode.removeChild(messageDiv);
+            }
+        }, 300);
+    }, 4000);
+}
+
+// Reset forms
+function resetForms() {
+    loginForm.reset();
+    registerForm.reset();
+    
+    // Reset to login tab
+    loginTabs.forEach(t => t.classList.remove('active'));
+    authForms.forEach(f => f.classList.remove('active'));
+    
+    document.querySelector('[data-tab="login"]').classList.add('active');
+    document.getElementById('login-form').classList.add('active');
+}
+
+// Add slide animations
+const slideAnimations = document.createElement('style');
+slideAnimations.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(slideAnimations);
+
+// Initialize authentication on page load
+document.addEventListener('DOMContentLoaded', function() {
+    checkSavedLogin();
+});
+
+// Initialize on page load (backup)
+checkSavedLogin();
